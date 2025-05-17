@@ -1,4 +1,4 @@
-# shose_store
+# shoes_store
 
 A new Flutter project.
 
