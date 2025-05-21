@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shose_store/interface/StartPage.dart';
+
+import 'Home/Home.dart';
 
 import 'Home/Home.dart';
 
@@ -14,8 +17,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Shoes Store',
+<<<<<<< HEAD
       home: Home(),
     );
   }
 }
 
+=======
+      home: StartPage(),
+    );
+  }
+}
+>>>>>>> thanhhuy
