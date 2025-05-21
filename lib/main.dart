@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:shose_store/interface/StartPage.dart';
 
 import 'Home/Home.dart';
 import 'firebase_options.dart';
@@ -17,12 +16,11 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Shoes Store',
-      home: StartPage(),
+      home: Home(),
     );
   }
 }
