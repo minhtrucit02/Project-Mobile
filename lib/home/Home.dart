@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:shose_store/home/componets/ShoesCard.dart';
+import 'package:shose_store/home/componets/ShoesCardWidget.dart';
 import 'package:shose_store/home/componets/TopBar.dart';
+
+import 'componets/ShoesCard.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -71,6 +73,27 @@ class _HomeState extends State<Home> {
                 ),
               ),
               const SizedBox(height: 20,),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: const [
+                    ShoesCard(),
+                    SizedBox(width: 8),
+                    ShoesCard(),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20,),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    ShoesCardWidget(),
+                    ShoesCardWidget(),
+                  ],
+                ),
+              ),
+
             ],
           ),
       ),

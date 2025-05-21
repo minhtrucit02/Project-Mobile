@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:shose_store/interface/StartPage.dart';
 
 import 'Home/Home.dart';
+import 'firebase_options.dart';
 
-import 'Home/Home.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -17,15 +22,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Shoes Store',
-<<<<<<< HEAD
-      home: Home(),
-    );
-  }
-}
-
-=======
       home: StartPage(),
     );
   }
 }
->>>>>>> thanhhuy
+
