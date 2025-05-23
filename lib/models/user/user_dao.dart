@@ -46,25 +46,28 @@ class UserDao extends ChangeNotifier{
   }
 
   //TODO: add Login
-  Future<String? >login(String email, String password) async{
-    try{
-      await auth.signInWithEmailAndPassword(
-          email: email,
-          password: password);
+  Future<String?> login(String email, String password) async {
+    if (email.isEmpty) return "Email is blank.";
+    if (password.isEmpty) return "Password is blank.";
+
+    try {
+      await auth.signInWithEmailAndPassword(email: email, password: password);
       notifyListeners();
       return null;
-    } on FirebaseAuthException catch (e){
-      if(email.isEmpty){
-        errorMsg = "Email is blank.";
-      } else if(password.isEmpty){
-        errorMsg = "Password is blank.";
-      } else if(e.code == "invalid-email"){
-        errorMsg == "INVALID_LOGIN_CREDENTIALS.";
-      } else if(e.code=='user-not-found'){
-        errorMsg == "No user found for that email.";
-      } else if(e.code == "wrong-password"){
-        errorMsg = "Wrong password provider for that user.";
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "invalid-email") {
+        errorMsg = "Invalid email address.";
+      } else if (e.code == 'user-not-found') {
+        errorMsg = "No user found for that email.";
+      } else if (e.code == "wrong-password") {
+        errorMsg = "Wrong password provided.";
+      } else {
+        errorMsg = e.message ?? "An unknown error occurred.";
       }
+      return errorMsg;
+    } catch (e) {
+      log(e.toString());
+      return "An unexpected error occurred.";
     }
   }
 
