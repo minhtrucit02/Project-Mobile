@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shose_store/service/userService/providers.dart';
+import 'package:shose_store/view/userView/providers.dart';
 
 import 'login.dart';
 
@@ -100,10 +100,18 @@ class _SignupState extends ConsumerState<Signup> {
                       _emailController.text.trim(),
                       _passwordController.text.trim(),
                     );
-                    if (result != null && context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(result)),
+                    if(result == null){
+                      if(!context.mounted) return;
+                      Navigator.pushAndRemoveUntil(context,
+                          MaterialPageRoute(builder: (context) => const Login()),
+                              (Route<dynamic> route) => false,
                       );
+                    } else {
+                      if(context.mounted){
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(result)),
+                        );
+                      }
                     }
                   },
                   style: ElevatedButton.styleFrom(

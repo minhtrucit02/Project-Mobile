@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shose_store/service/userService/providers.dart';
-import 'package:shose_store/service/userService/sign_up.dart';
+import 'package:shose_store/view/userView/providers.dart';
+import 'package:shose_store/view/userView/sign_up.dart';
 
-import '../../Home/Home.dart';
+
+import '../../home/Home.dart';
 
 class Login extends ConsumerStatefulWidget {
   const Login({super.key});

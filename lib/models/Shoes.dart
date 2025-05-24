@@ -3,7 +3,7 @@ class Shoes {
   final String name;
   final String brand;
   final String price;
-  final DateTime mfgDate; // Manufacturing date
+  final DateTime mfgDate;
   final String origin;
   final String imageURL;
 
