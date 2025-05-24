@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shose_store/home/componets/TopBar.dart';
+
+import '../../home/components/TopBar.dart';
 
 class ShoesDetail extends StatelessWidget{
   const ShoesDetail({super.key});
