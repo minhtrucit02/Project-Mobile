@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shose_store/view/userView/profile.dart';
-
-import 'components/ShoesCard.dart';
-import 'components/ShoesCardWidget.dart';
-import 'components/TopBar.dart';
+import '../models/shoes/Shoes.dart';
+import 'components/brandCard.dart';
+import 'components/productCard.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -13,126 +13,273 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  // TODO: current tab
-  int tab = 0;
+  int _selectedIndex = 0;
 
-  //TODO: define tab bar destinations
-  List<NavigationDestination> appBarDestinations = const [
-    NavigationDestination(
-      icon: Icon(Icons.home_outlined),
-      label: 'Home',
-      selectedIcon: Icon(Icons.home_outlined),
-    ),
-    NavigationDestination(
-      icon: Icon(Icons.favorite_border_outlined),
-      label: 'Favorite',
-      selectedIcon: Icon(Icons.favorite_border_outlined),
-    ),
-    NavigationDestination(
-      icon: Icon(Icons.notifications_none),
-      label: 'Notification',
-      selectedIcon: Icon(Icons.notifications_none),
-    ),
-    NavigationDestination(
-      icon: Icon(Icons.person_outlined),
-      label: 'Person',
-      selectedIcon: Icon(Icons.person_outlined),
-
-    ),
-  ];
-  List<String> brands = [
-    'Nike','Puma', 'Under Armour', 'Adidas', 'Converse'
-  ];
-  void _onDestinationSelected(int index){
+  void _onItemTapped(int index) {
     setState(() {
-      tab = index;
+      _selectedIndex = index;
     });
-
-    switch(index){
-      case 0:
-        print("Go to home");
-        Navigator.push(context,
-            MaterialPageRoute(builder: (_) => Home()));
+    switch (index) {
+      case 0: // Home
         break;
-      case 1:
-        print("Go to favourite");
-        Navigator.push(context,
-            MaterialPageRoute(builder: (_) => Home()));
+      case 1: // Favorite
+        // TODO: Navigate to Favorite screen
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Navigating to Favorites...')),
+        );
         break;
-      case 2:
-        print("Go to Notification");
-        Navigator.push(context,
-            MaterialPageRoute(builder: (_) => Home()));
+      case 2: // Shopping bag
+        // TODO: Navigate to Cart screen
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Opening Shopping Bag...')),
+        );
         break;
-      case 3:
-        print("Go to person");
+      case 3: // Notifications
+        // TODO: Navigate to Notifications screen
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Opening Notifications...')),
+        );
+        break;
+      case 4: // Profile
         Navigator.push(context,
-            MaterialPageRoute(builder: (_) => Profile()));
+            MaterialPageRoute(builder: (context) => const Profile()));
         break;
     }
   }
 
+  void _onMenuPressed() {
+    // TODO: Open drawer or menu
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Opening menu...')),
+    );
+  }
+
+  void _onShoppingBagPressed() {
+    // TODO: Navigate to shopping bag
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Opening shopping bag...')),
+    );
+  }
+
+  void _onSearchSubmitted(String value) {
+    // TODO: Implement search functionality
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Searching for: $value')),
+    );
+  }
+
+  void _onSeeAllPopularPressed() {
+    // TODO: Navigate to all popular shoes
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Viewing all popular shoes...')),
+    );
+  }
+
+  void _onSeeAllNewArrivalsPressed() {
+    // TODO: Navigate to all new arrivals
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Viewing all new arrivals...')),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    //TODO: define page
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(title: TopBar()),
-      body: Padding(padding: const EdgeInsets.all(16),
-        child: Column(
+      backgroundColor: Colors.grey[50],
+      appBar: AppBar(
+        title:Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const SizedBox(height: 20,),
-            SearchBar(),
-            const SizedBox(height: 40,),
-            SizedBox(
-              height: 40,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: brands.map((brand){
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Chip(
-                        backgroundColor: brand == 'Nike' ? Colors.blue : Colors.grey[200],
-                        label: Text(
-                          brand,
-                          style: TextStyle(
-                            color: brand == 'Nike' ? Colors.white : Colors.black,
-                          ),
-                        )),
-                  );
-                }).toList(),
-              ),
+            IconButton(
+              icon: Icon(Icons.grid_view_rounded),
+              onPressed: _onMenuPressed,
             ),
-            const SizedBox(height: 20,),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: const [
-                  ShoesCard(),
-                  SizedBox(width: 8),
-                  ShoesCard(),
-                ],
-              ),
+            Column(
+              children: [
+                Text(
+                  'Store location',
+                  style: TextStyle(
+                    color: Colors.grey[600],
+                    fontSize: 12,
+                  ),
+                ),
+                Row(
+                  children: [
+                    Icon(Icons.location_on, color: Colors.red, size: 16),
+                    Text(
+                      'Mondolibug, Sylhet',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            const SizedBox(height: 20,),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  ShoesCardWidget(),
-                  ShoesCardWidget(),
-                ],
+            Stack(
+              children: [
+                IconButton(
+                  icon: Icon(Icons.shopping_bag_outlined),
+                  onPressed: _onShoppingBagPressed,
+                ),
+                Positioned(
+                  right: 8,
+                  top: 8,
+                  child: Container(
+                    width: 8,
+                    height: 8,
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+
+      ),
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    // Search Bar
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[100],
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          icon: Icon(Icons.search, color: Colors.grey),
+                          hintText: 'Looking for shoes',
+                          border: InputBorder.none,
+                        ),
+                        onSubmitted: _onSearchSubmitted,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
 
+            // Brand List Horizontal Scroll
+            SliverToBoxAdapter(
+              child: Container(
+                height: 60,
+                margin: EdgeInsets.symmetric(vertical: 8),
+                child: ListView(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    BrandCard(isSelected: true, brand: 'Nike', logo: 'assets/logo/nike.png'),
+                    BrandCard(isSelected: false, brand: 'Puma', logo: 'assets/logo/puma.png'),
+                    BrandCard(isSelected: false, brand: 'Under Armour', logo: 'assets/logo/under armour.png'),
+                    BrandCard(isSelected: false, brand: 'Adidas', logo: 'assets/logo/adidas.png'),
+                    BrandCard(isSelected: false, brand: 'Converse', logo: 'assets/logo/converse.png'),
+                  ],
+                ),
+              ),
+            ),
+
+            // Popular Shoes Title Row
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Popular Shoes', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    TextButton(
+                      onPressed: _onSeeAllPopularPressed,
+                      child: Text('See all', style: TextStyle(color: Colors.blue)),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            // Products Grid from Firestore
+            StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+              stream: FirebaseFirestore.instance.collection('shoes').snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return SliverToBoxAdapter(child: Center(child: CircularProgressIndicator()));
+                }
+
+                if (snapshot.hasError) {
+                  return SliverToBoxAdapter(child: Center(child: Text('Error: ${snapshot.error}')));
+                }
+
+                final docs = snapshot.data?.docs ?? [];
+
+                return SliverPadding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  sliver: SliverGrid(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.8,
+                      crossAxisSpacing: 16,
+                      mainAxisSpacing: 16,
+                    ),
+                    delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                        final doc = docs[index];
+                        final shoes = Shoes.fromSnapshot(doc);
+                        return ProductCard(shoes: shoes);
+                      },
+                      childCount: docs.length,
+                    ),
+                  ),
+                );
+              },
+            ),
+
+            // New Arrivals Section
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('New Arrivals', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    TextButton(
+                      onPressed: _onSeeAllNewArrivalsPressed,
+                      child: Text('See all', style: TextStyle(color: Colors.blue)),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: tab,
-        onDestinationSelected:_onDestinationSelected,
-        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-        destinations: appBarDestinations,
+
+      // Bottom Navigation Bar
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.grey,
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.favorite_border), label: 'Favorite'),
+          BottomNavigationBarItem(
+            icon: Container(
+              padding: EdgeInsets.all(12),
+              decoration: BoxDecoration(color: Colors.blue, shape: BoxShape.circle),
+              child: Icon(Icons.shopping_bag_outlined, color: Colors.white),
+            ),
+            label: '',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.notifications_none), label: 'Notifications'),
+          BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'Profile'),
+        ],
       ),
     );
   }

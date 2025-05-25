@@ -72,7 +72,6 @@ class _SignupState extends ConsumerState<Signup> {
                 decoration: _inputDecoration("Email"),
               ),
               const SizedBox(height: 16),
-
               const Text("Password"),
               const SizedBox(height: 6),
               TextFormField(
