@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shose_store/home/components/BrandList.dart';
+import 'package:shose_store/home/components/SearchCard.dart';
+import 'package:shose_store/home/components/appBarCard.dart';
 import 'package:shose_store/view/userView/profile.dart';
 import '../models/shoes/Shoes.dart';
 import 'components/brandCard.dart';
@@ -87,56 +90,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        title:Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-              icon: Icon(Icons.grid_view_rounded),
-              onPressed: _onMenuPressed,
-            ),
-            Column(
-              children: [
-                Text(
-                  'Store location',
-                  style: TextStyle(
-                    color: Colors.grey[600],
-                    fontSize: 12,
-                  ),
-                ),
-                Row(
-                  children: [
-                    Icon(Icons.location_on, color: Colors.red, size: 16),
-                    Text(
-                      'Mondolibug, Sylhet',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Stack(
-              children: [
-                IconButton(
-                  icon: Icon(Icons.shopping_bag_outlined),
-                  onPressed: _onShoppingBagPressed,
-                ),
-                Positioned(
-                  right: 8,
-                  top: 8,
-                  child: Container(
-                    width: 8,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-
+        title: AppBarCard(),
       ),
       body: SafeArea(
         child: CustomScrollView(
@@ -147,21 +101,7 @@ class _HomeState extends State<Home> {
                 child: Column(
                   children: [
                     // Search Bar
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[100],
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          icon: Icon(Icons.search, color: Colors.grey),
-                          hintText: 'Looking for shoes',
-                          border: InputBorder.none,
-                        ),
-                        onSubmitted: _onSearchSubmitted,
-                      ),
-                    ),
+                    SearchCard(),
                   ],
                 ),
               ),
@@ -176,6 +116,7 @@ class _HomeState extends State<Home> {
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   scrollDirection: Axis.horizontal,
                   children: [
+                    // BrandList(),
                     BrandCard(isSelected: true, brand: 'Nike', logo: 'assets/logo/nike.png'),
                     BrandCard(isSelected: false, brand: 'Puma', logo: 'assets/logo/puma.png'),
                     BrandCard(isSelected: false, brand: 'Under Armour', logo: 'assets/logo/under armour.png'),

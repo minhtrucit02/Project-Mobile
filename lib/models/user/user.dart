@@ -1,34 +1,18 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-class User {
+class User{
   User({
-    required this.id,
-    required this.date,
-    required this.name,
-    required this.email,
-    required this.password,
+  required this.id,
+  required this.name,
+  required this.email,
+  required this.address,
+  required this.phone,
+  required this.cardId,
+  required this.dateCreateUser
   });
   final int id;
-  final DateTime date;
   final String name;
   final String email;
-  final String password;
-
-  factory User.fromJson(Map<String, dynamic> json) => User(
-    id: json['id'],
-    date: (json['date'] as Timestamp).toDate(),
-    name: json['name'],
-    email: json['email'],
-    password: json['password'],
-  );
-  Map<String, dynamic> toJson() => <String, dynamic>{
-    'id': id,
-    'date': date,
-    'name': name,
-    'email': email,
-    'password': password,
-  };
-
-  //TODO: add fromSnapshot
-  
+  final String address;
+  final String phone;
+  final int cardId;
+  final DateTime dateCreateUser;
 }

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Shoes {
-  static final CollectionReference<Map<String, dynamic>> collection =
+  static final CollectionReference<Map<String, dynamic>> collectionShoes =
       FirebaseFirestore.instance.collection('shoes');
 
   final int id;
@@ -23,7 +23,6 @@ class Shoes {
     required this.mfgDate,
     required this.origin,
     required this.imageURL,
-    this.reference,
   });
 
   //TODO: add json converts
@@ -36,7 +35,6 @@ class Shoes {
         mfgDate: (json['mfgDate'] as Timestamp).toDate(),
         origin: json['origin'] as String,
         imageURL: json['imageURL'] as String,
-        reference: json['reference'] as DocumentReference?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -48,7 +46,6 @@ class Shoes {
         'mfgDate': Timestamp.fromDate(mfgDate),
         'origin': origin,
         'imageURL': imageURL,
-        'reference': reference,
       };
   //TODO: add from Snapshot
   factory Shoes.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
@@ -67,7 +64,7 @@ class Shoes {
     required String imageURL,
   }) async {
     // Get the next ID
-    final QuerySnapshot querySnapshot = await collection.get();
+    final QuerySnapshot querySnapshot = await collectionShoes.get();
     final int nextId = querySnapshot.size + 1;
 
     final shoes = Shoes(
@@ -81,7 +78,7 @@ class Shoes {
       imageURL: imageURL,
     );
 
-    final docRef = await collection.add(shoes.toJson());
+    final docRef = await collectionShoes.add(shoes.toJson());
     return docRef;
   }
 }
