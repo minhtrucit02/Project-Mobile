@@ -107,25 +107,13 @@ class _HomeState extends State<Home> {
               ),
             ),
 
-            // Brand List Horizontal Scroll
             SliverToBoxAdapter(
-              child: Container(
-                height: 60,
-                margin: EdgeInsets.symmetric(vertical: 8),
-                child: ListView(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    // BrandList(),
-                    BrandCard(isSelected: true, brand: 'Nike', logo: 'assets/logo/nike.png'),
-                    BrandCard(isSelected: false, brand: 'Puma', logo: 'assets/logo/puma.png'),
-                    BrandCard(isSelected: false, brand: 'Under Armour', logo: 'assets/logo/under armour.png'),
-                    BrandCard(isSelected: false, brand: 'Adidas', logo: 'assets/logo/adidas.png'),
-                    BrandCard(isSelected: false, brand: 'Converse', logo: 'assets/logo/converse.png'),
-                  ],
-                ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: BrandList(),
               ),
             ),
+
 
             // Popular Shoes Title Row
             SliverToBoxAdapter(

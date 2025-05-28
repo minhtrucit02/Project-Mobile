@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shose_store/models/shoes/product.dart';
 import 'package:shose_store/services/product_service.dart';
+import 'dart:convert';
+
 
 class GetAllProduct extends StatelessWidget {
    GetAllProduct({super.key});
@@ -35,12 +37,10 @@ class GetAllProduct extends StatelessWidget {
               child: Text("No products found"),
             );
           }
-
           return ListView.builder(
             itemCount: products.length,
             itemBuilder: (context, index) {
               final product = products[index];
-              print (product.imagePath);
               return ListTile(
                 leading: Image.asset(
                   'assets/logo/${product.imagePath}',

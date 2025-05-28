@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class Product {
   Product({
@@ -28,6 +29,5 @@ class Product {
     'id': id,
     'brand': brand,
     'imagePath': imagePath,
-    'createdAt': createdAt,
-  };
+    'createdAt': DateFormat('yyyy-MM-dd').format(createdAt.toDate()),  };
 }

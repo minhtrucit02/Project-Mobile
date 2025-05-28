@@ -3,8 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
  import 'package:shose_store/home/Home.dart';
 import 'package:shose_store/home/components/BrandList.dart';
-import 'package:shose_store/home/components/brandCard.dart';
-import 'package:shose_store/view/product/get_all_product.dart';
 
 import 'firebase_options.dart';
 

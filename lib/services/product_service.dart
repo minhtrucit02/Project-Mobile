@@ -29,4 +29,5 @@ class ProductService {
         .map((doc) => Product.fromFirestore(doc))
         .toList());
   }
+
 }
