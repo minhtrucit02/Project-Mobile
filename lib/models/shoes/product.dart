@@ -1,33 +1,42 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
 
 class Product {
   Product({
     required this.id,
-    required this.brand,
-    required this.imagePath,
-    required this.createdAt,
-  });
+    required this.brandId,
+    required this.name,
+    required this.price,
+    required this.description,
+    required this.feedback,
+    required this.createAt,
+});
   final int id;
-  final String brand;
-  final String imagePath;
-  final Timestamp createdAt;
+  final int brandId;
+  final String name;
+  final double price;
+  final String description;
+  final String feedback;
+  final DateTime createAt;
 
-  //TODO: add json converts
+  factory Product.fromJson(Map<String, dynamic> json) => Product(
+    id: json['id'],
+    brandId: json['brandId'],
+    name: json['name'],
+    price: json['price'],
+    description:json['description'] ,
+    feedback: json['feedback'],
+    createAt: json['createAt'],
+  );
 
-  factory Product.fromFirestore(DocumentSnapshot doc) {
-    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-    return Product(
-      id: data['id'] ?? 0,
-      brand: data['brand'] ?? '',
-      imagePath: data['imagePath'] ?? '',
-      createdAt: data['createdAt'] ?? Timestamp.now(),
-    );
-  }
-
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toJson() => {
     'id': id,
-    'brand': brand,
-    'imagePath': imagePath,
-    'createdAt': DateFormat('yyyy-MM-dd').format(createdAt.toDate()),  };
+    'brandId':brandId,
+    'name': name,
+    'price':price,
+    'description':description,
+    'feedback':feedback,
+    'createAt':createAt,
+  };
+
+
 }

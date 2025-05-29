@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:shose_store/models/shoes/product.dart';
-import 'package:shose_store/services/product_service.dart';
+import 'package:shose_store/models/shoes/brand.dart';
+import 'package:shose_store/services/brand_service.dart';
 import 'dart:convert';
 
 
 class GetAllProduct extends StatelessWidget {
    GetAllProduct({super.key});
 
-  final ProductService productService =  ProductService();
+  final BrandService brandService =  BrandService();
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +15,8 @@ class GetAllProduct extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Products'),
       ),
-      body: StreamBuilder<List<Product>>(
-        stream: productService.getAllProductsStream(),
+      body: StreamBuilder<List<Brand>>(
+        stream: brandService.getAllBrandsStream(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Center(
@@ -31,7 +31,6 @@ class GetAllProduct extends StatelessWidget {
           }
 
           final products = snapshot.data ?? [];
-
           if (products.isEmpty) {
             return const Center(
               child: Text("No products found"),
