@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../models/shoes/Shoes.dart';
+import '../../models/shoes/product.dart';
 
 class ProductCard extends StatelessWidget {
-  final Shoes shoes;
+  final Product product;
 
-  const ProductCard({super.key, required this.shoes});
+  const ProductCard({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class ProductCard extends StatelessWidget {
           ),
           SizedBox(height: 8),
           Text(
-            shoes.name,
+            product.name,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 16,
@@ -64,7 +64,7 @@ class ProductCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                shoes.price,
+                product.description,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,

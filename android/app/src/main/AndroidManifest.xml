@@ -1,4 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Add permissions for image picker -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <!-- For Android 12 and lower versions -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application
         android:label="shose_store"
         android:name="${applicationName}"
