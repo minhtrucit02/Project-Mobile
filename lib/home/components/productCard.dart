@@ -64,7 +64,7 @@ class ProductCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                product.description,
+                "${product.price}",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,

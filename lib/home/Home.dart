@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shose_store/home/components/BrandList.dart';
 import 'package:shose_store/home/components/SearchCard.dart';
 import 'package:shose_store/home/components/appBarCard.dart';
+import 'package:shose_store/home/components/popularShoes/popular_shoes.dart';
 import 'package:shose_store/view/userView/profile.dart';
-import '../models/shoes/product.dart';
-import 'components/brandCard.dart';
-import 'components/productCard.dart';
+
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -132,43 +130,13 @@ class _HomeState extends State<Home> {
               ),
             ),
 
-            // Products Grid from Firestore
-            // StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-            //   stream: FirebaseFirestore.instance.collection('shoes').snapshots(),
-            //   builder: (context, snapshot) {
-            //     if (snapshot.connectionState == ConnectionState.waiting) {
-            //       return SliverToBoxAdapter(child: Center(child: CircularProgressIndicator()));
-            //     }
-            //
-            //     if (snapshot.hasError) {
-            //       return SliverToBoxAdapter(child: Center(child: Text('Error: ${snapshot.error}')));
-            //     }
-            //
-            //     final docs = snapshot.data?.docs ?? [];
-            //
-            //     return SliverPadding(
-            //       padding: EdgeInsets.symmetric(horizontal: 16),
-            //       sliver: SliverGrid(
-            //         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            //           crossAxisCount: 2,
-            //           childAspectRatio: 0.8,
-            //           crossAxisSpacing: 16,
-            //           mainAxisSpacing: 16,
-            //         ),
-            //         delegate: SliverChildBuilderDelegate(
-            //               (context, index) {
-            //             final doc = docs[index];
-            //             final shoes = Product.fromSnapshot(doc);
-            //             return ProductCard(shoes: shoes);
-            //           },
-            //           childCount: docs.length,
-            //         ),
-            //       ),
-            //     );
-            //   },
-            // ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8,),
+                child: PopularShoes(),
+              ),
+            ),
 
-            // New Arrivals Section
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),

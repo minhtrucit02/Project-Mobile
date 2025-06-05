@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shose_store/models/shoes/imageDetail.dart';
+import 'package:shose_store/models/shoes/productSize.dart';
 
 class Product {
   Product({
@@ -6,37 +8,46 @@ class Product {
     required this.brandId,
     required this.name,
     required this.price,
+    required this.imageDetail,
+    required this.productSize,
     required this.description,
-    required this.feedback,
     required this.createAt,
-});
+  });
   final int id;
   final int brandId;
   final String name;
   final double price;
+  final List<ImageDetail> imageDetail;
+  final List<ProductSize> productSize;
   final String description;
-  final String feedback;
-  final DateTime createAt;
+  final Timestamp createAt;
 
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
-    id: json['id'],
-    brandId: json['brandId'],
-    name: json['name'],
-    price: json['price'],
-    description:json['description'] ,
-    feedback: json['feedback'],
-    createAt: json['createAt'],
-  );
+  factory Product.fromRealtime(Map<String, dynamic> data) {
+    return Product(
+      id: data['id'],
+      brandId: data['brandId'],
+      name: data['name'],
+      price: (data['price'] as num).toDouble(),
+      description: data['description'],
+      createAt: Timestamp.now(),
+      imageDetail: (data['listImageProduct'] as List<dynamic>?)
+          ?.map((e) => ImageDetail.fromJson(e))
+          .toList() ?? [],
+      productSize: (data['listProductSize'] as List<dynamic>?)
+          ?.map((e) => ProductSize.fromJson(e))
+          .toList() ?? [],
+    );
+  }
+
 
   Map<String, dynamic> toJson() => {
     'id': id,
-    'brandId':brandId,
+    'brandId': brandId,
     'name': name,
-    'price':price,
-    'description':description,
-    'feedback':feedback,
-    'createAt':createAt,
+    'price': price,
+    'description': description,
+    'createAt': createAt,
+    'listImageProduct': imageDetail.map((e) => e.toJson()).toList(),
+    'listProductSize': productSize.map((e) => e.toJson()).toList(),
   };
-
-
 }
