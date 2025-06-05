@@ -2,29 +2,28 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Brand {
   final int id;
-  final String brand;
+  final String name;
   final String imagePath;
-  final Timestamp createdAt;
+  final String createdAt;
 
   Brand({
     required this.id,
-    required this.brand,
+    required this.name,
     required this.imagePath,
     required this.createdAt,
   });
-  factory Brand.fromFirestore(DocumentSnapshot doc) {
-    final data = doc.data() as Map<String, dynamic>;
+  factory Brand.fromJson(Map<String,dynamic> json) {
     return Brand(
-      id: data['id'] ?? 0,
-      brand: data['brand'] ?? '',
-      imagePath: data['imagePath'] ?? '',
-      createdAt: data['createdAt'] ?? Timestamp.now(),
+      id: json['id'] ?? 0,
+      name: json['brand'] ?? '',
+      imagePath: json['imagePath'] ?? '',
+      createdAt: json['createdAt'] ?? '',
     );
   }
 
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toJson() => {
     'id': id,
-    'brand': brand,
+    'brand': name,
     'imagePath': imagePath,
     'createdAt': createdAt,
   };

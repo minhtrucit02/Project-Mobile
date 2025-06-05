@@ -19,7 +19,7 @@ class _BrandListState extends State<BrandList> {
       height: 60,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        itemCount: 5, // Show 5 shimmer items while loading
+        itemCount: 5,
         itemBuilder: (context, index) {
           return Container(
             margin: const EdgeInsets.symmetric(horizontal: 8),
@@ -78,7 +78,7 @@ class _BrandListState extends State<BrandList> {
 
         final products = snapshot.data ?? [];
         final brands = products
-            .map((e) => {'brand': e.brand, 'imagePath': e.imagePath})
+            .map((e) => {'brand': e.name, 'imagePath': e.imagePath})
             .toSet()
             .toList();
 

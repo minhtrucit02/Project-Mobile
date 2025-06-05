@@ -23,26 +23,20 @@ class _AddBrandState extends State<AddBrand> {
   }
 
   void _submitForm() async {
-    if (_formKey.currentState!.validate()) {
-      final name = _nameBrandController.text.trim();
-      final imageBrand = _imageBrandController.text.trim();
-
+    if(_formKey.currentState!.validate()){
+      final brand = Brand(
+        id: 0,
+        name: _nameBrandController.text,
+        imagePath: _imageBrandController.text,
+        createdAt: '',
+      );
       try{
-        final brandSnapshot = await FirebaseFirestore.instance.collection('brands').orderBy('id',descending: true).limit(1).get();
-        final nextId = brandSnapshot.docs.isEmpty ? 1 : brandSnapshot.docs.first['id'] + 1;
-
-        final brand = Brand(id: nextId, brand: name, imagePath: imageBrand, createdAt: Timestamp.now());
-        final brandService = BrandService();
-        final docId = await brandService.addBrand(brand);
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Brand added successfully (ID: $docId)')),
-          );
-        }
+        await BrandService().addBrand(brand);
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Add successfully")));
+        _nameBrandController.clear();
+        _imageBrandController.clear();
       }catch(e){
-        if(mounted){
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error adding brand ")));
-        }
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Bug: $e")));
       }
     }
   }
