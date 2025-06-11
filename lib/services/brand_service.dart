@@ -14,10 +14,9 @@ class BrandService {
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         if (data is Map<String, dynamic>) {
-          final ids = data.keys
-              .map((key) => int.tryParse(key.toString()) ?? 0)
-              .toList()
-            ..sort();
+          final ids =
+              data.keys.map((key) => int.tryParse(key.toString()) ?? 0).toList()
+                ..sort();
           newId = (ids.isNotEmpty ? ids.last + 1 : 1);
         }
       }
@@ -74,6 +73,33 @@ class BrandService {
     } catch (e) {
       print('Lỗi khi lấy danh sách brand: $e');
       rethrow;
+    }
+  }
+
+  Future<String?> getBrandNameById(int id) async {
+    try {
+      final response = await http.get(Uri.parse('$baseUrl/brands.json'));
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+
+        if (data != null && data is List) {
+          for (var item in data) {
+            if (item != null && item is Map<String, dynamic>) {
+              if (item['id'] == id) {
+                final brand = Brand.fromJson(item);
+                return brand.name;
+              }
+            }
+          }
+        }
+        print('Không tìm thấy brand với id: $id');
+        return null;
+      } else {
+        throw Exception('Lỗi khi tải dữ liệu: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Lỗi khi lấy sản phẩm theo ID: $e');
+      return null;
     }
   }
 }

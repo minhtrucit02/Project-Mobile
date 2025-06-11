@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "204991613682",
+    "firebase_url": "https://shosestore-7c86e-default-rtdb.firebaseio.com",
     "project_id": "shosestore-7c86e",
     "storage_bucket": "shosestore-7c86e.firebasestorage.app"
   },
@@ -12,7 +13,20 @@
           "package_name": "com.example.shose_store"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "204991613682-5jvo6hq1ar1t2iokuh4aeidjbvit3sdg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.shose_store",
+            "certificate_hash": "882da27d3425e93f880c7355248a5772fa0c2f65"
+          }
+        },
+        {
+          "client_id": "204991613682-eeovkmosgai6otvp23t9l8d9mm5io7ls.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyA9zda2-gApf3BnmmcrbVXwxzdG5Nnx9_M"
@@ -20,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "204991613682-eeovkmosgai6otvp23t9l8d9mm5io7ls.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

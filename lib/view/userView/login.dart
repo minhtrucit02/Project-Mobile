@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shose_store/view/userView/providers.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shose_store/view/userView/sign_up.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -57,6 +57,53 @@ class _LoginState extends ConsumerState<Login> {
     }
   }
 
+  Future<void> _signInWithGoogle() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) {
+        setState(() => _isLoading = false);
+        return; // User cancelled
+      }
+
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      await FirebaseAuth.instance.signInWithCredential(credential);
+
+      if (mounted) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const Home()),
+              (Route<dynamic> route) => false,
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        _errorMessage = e.message;
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage = 'An error occurred. Please try again.';
+      });
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -66,7 +113,6 @@ class _LoginState extends ConsumerState<Login> {
 
   @override
   Widget build(BuildContext context) {
-    final userDao = ref.watch(userDaoProvider);
 
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9F9),
@@ -209,9 +255,7 @@ class _LoginState extends ConsumerState<Login> {
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton.icon(
-                      onPressed: () {
-                        //TODO: add function login with google
-                      },
+                      onPressed: _isLoading ? null : _signInWithGoogle,
                       icon: Image.asset(
                         'assets/google/google.png',
                         height: 24,
