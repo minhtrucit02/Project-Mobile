@@ -6,8 +6,10 @@ import '../productCard.dart';
 
 class PopularShoes extends StatelessWidget {
   final ProductService productService = ProductService();
+  final void Function(int productId) onProductTap;
 
-  PopularShoes({super.key});
+
+  PopularShoes({super.key, required this.onProductTap});
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +43,10 @@ class PopularShoes extends StatelessWidget {
           itemCount: products.length,
           itemBuilder: (context, index) {
             final product = products[index];
-            return ProductCard(product: product);
-          },
+            return GestureDetector(
+              onTap: () => onProductTap(product.id),
+              child: ProductCard(product: product),
+            );          },
         );
       },
     );

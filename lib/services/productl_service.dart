@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:intl/intl.dart';
+import 'package:shose_store/models/shoes/imageDetail.dart';
 import 'package:shose_store/models/shoes/product.dart';
 import 'package:http/http.dart' as http;
 
@@ -24,7 +25,6 @@ class ProductService {
 
   //firebase database
   final _productRef = FirebaseDatabase.instance.ref().child('products');
-
 
   Future<void> addProducts(Product product) async {
     try {
@@ -70,37 +70,95 @@ class ProductService {
   }
 
   Future<List<Product>> getAllProducts() async {
-    try{
+    try {
       final response = await http.get(Uri.parse('$baseUrl/products.json'));
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         final data = json.decode(response.body);
         final List<Product> products = [];
 
-        if(data!= null && data is List){
-          for(var item in data){
-            if(item!= null && item is Map<String, dynamic>){
-              try{
+        if (data != null && data is List) {
+          for (var item in data) {
+            if (item != null && item is Map<String, dynamic>) {
+              try {
                 final product = Product.fromRealtime(item);
                 products.add(product);
-              }catch(e){
+              } catch (e) {
                 print("Lỗi khi parse product: $e | Dữ liệu: $item");
               }
             }
           }
 
-          products.sort((a,b) => a.id.compareTo(b.id));
+          products.sort((a, b) => a.id.compareTo(b.id));
           return products;
-        }else{
+        } else {
           print("Dữ liệu không hợp lệ: $data");
           return [];
         }
-      } else{
+      } else {
         throw Exception('Lỗi khi tải dữ liệu: ${response.statusCode}');
       }
-    }catch(e){
+    } catch (e) {
       print('Lỗi khi lấy danh sách product: $e');
       rethrow;
     }
   }
 
+  Future<List<String>> getImageProductById(int id) async {
+    try {
+      final response = await http.get(Uri.parse('$baseUrl/products.json'));
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+
+        if (data != null && data is Map<String, dynamic>) {
+          for (var entry in data.entries) {
+            final product = entry.value;
+            if (product['id'] == id) {
+              final List<dynamic> imageList = product['listImageProduct'] ?? [];
+              final imagePath =
+                  imageList
+                      .map((e) => e['imagePath']?.toString())
+                      .where((imagePath) => imagePath != null)
+                      .cast<String>()
+                      .toList();
+
+              return imagePath;
+            }
+          }
+        }
+        return [];
+      } else {
+        throw Exception('Lỗi khi tải dữ liệu: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Lỗi khi lấy hình ảnh sản phẩm: $e');
+      return [];
+    }
+  }
+
+  Future<Product?> getProductById(int id) async {
+    try {
+      final response = await http.get(Uri.parse('$baseUrl/products.json'));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+
+        if (data != null && data is List) {
+          for (var item in data) {
+            if (item != null && item is Map<String, dynamic>) {
+              if (item['id'] == id) {
+                return Product.fromRealtime(item);
+              }
+            }
+          }
+        }
+        print('Không tìm thấy sản phẩm với id: $id');
+        return null;
+      } else {
+        throw Exception('Lỗi khi tải dữ liệu: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Lỗi khi lấy sản phẩm theo ID: $e');
+      return null;
+    }
+  }
 }
